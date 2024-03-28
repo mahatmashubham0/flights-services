@@ -1,13 +1,13 @@
 const { Logger } = require("../config");
-const { Airplane } = require("../models");
 const { StatusCodes } = require("http-status-codes");
+
 const AppError = require("../utils/app-error");
 
 class CrudRespository {
-  constructor() {
-    this.model = Airplane;
+  constructor(model) {
+    this.model = model;
   }
-
+  
   async create(data) {
     const response = await this.model.create(data);
     return response;
