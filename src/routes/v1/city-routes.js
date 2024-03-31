@@ -1,11 +1,15 @@
 const express = require("express");
 
 const { cityController } = require("../../controllers");
-// const { AirPlaneMiddleware } = require("../../middlewares");
+const { CityMiddleware } = require("../../middlewares");
 
 const router = express.Router();
 
-router.post("/", cityController.createCity);
+router.post("/", CityMiddleware.validateCreateRequest , cityController.createCity);
+
+router.delete("/:id", cityController.deleteCity);
+
+router.patch("/:id", cityController.updateCity);
 
 
 
