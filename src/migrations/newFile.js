@@ -1,15 +1,15 @@
-'use strict';
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Flights', {
+    await queryInterface.createTable("Flights", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      
+
       flightNumber: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -18,28 +18,28 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Airplanes',
-          key: 'id',
+          model: "Airplanes",
+          field: "id",
         },
-        onDelete: 'CASCADE',
+        onDelete: "CASCADE",
       },
       departureAirportId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Airports',
-          key: 'code',
+          model: "Airports",
+          field: "code",
         },
-        onDelete: 'CASCADE',
+        onDelete: "CASCADE",
       },
       arrivalAirportId: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Airports',
-          key: 'code',
+          model: "Airports",
+          field: "code",
         },
-        onDelete: 'CASCADE',
+        onDelete: "CASCADE",
       },
       departureTime: {
         type: Sequelize.DATE,
@@ -54,7 +54,7 @@ module.exports = {
         allowNull: false,
       },
       boardingGate: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
       },
       totalseats: {
         type: Sequelize.INTEGER,
@@ -67,10 +67,10 @@ module.exports = {
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: false,
-      }
+      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Flights');
-  }
+    await queryInterface.dropTable("Flights");
+  },
 };

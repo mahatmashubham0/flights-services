@@ -13,10 +13,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'airPlaneId'
       })
       this.belongsTo(models.Airport , {
-        foreignKey: 'code'
+        foreignKey: 'departureAirportId'
       })
       this.belongsTo(models.Airport , {
-        foreignKey: 'code'
+        foreignKey: 'arrivalAirportId'
       })
     }
   }
