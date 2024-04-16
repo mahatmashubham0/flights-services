@@ -26,6 +26,8 @@ class CrudRespository {
     return response;
   }
 
+  // if data is not present so if block will be excuted and App Class initailze and throw the Error to the Airplane Service
+
   async get(id) {
     const response = await this.model.findByPk(id);
     if (!response) {

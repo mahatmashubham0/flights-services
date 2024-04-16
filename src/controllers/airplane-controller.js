@@ -48,6 +48,9 @@ async function getAirplane(req, res) {
   }
 }
 
+// Again using throw Error come < AirplaneService.getAirplane(req.params.id); > on this part and according the try catch if Error occur so Catch part will be
+// execute and inside the catch ErrorResponse object will be updated and now return the Error on the display using res.send() method
+
 async function destroyAirplane(req, res) {
   try {
     const airplane = await AirplaneService.destroyAirplane(req.params.id);

@@ -41,8 +41,9 @@ async function getAirplane(id) {
     const airplane = await airplanerespository.get(id);
     return airplane;
   } catch (error) {
+    console.log(error.explaination)
     if (error.StatusCode === StatusCodes.NOT_FOUND) {
-      throw new AppError("The airplane is not present ", error.StatusCode);
+      throw new AppError("The airplane is not present", error.StatusCode);
     }
     throw new AppErrors(
       "cannot fetch data of the particular airplanes",
@@ -50,6 +51,9 @@ async function getAirplane(id) {
     );
   }
 }
+
+// So using throw statement Error come < airplanerespository.get(id); > on this part and according the try catch if Error occur so Catch part will be
+// execute and according error stiuation again Error Class will be updated and and throw error to the Controller part
 
 async function destroyAirplane(id) {
   try {

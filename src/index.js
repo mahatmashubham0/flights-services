@@ -12,12 +12,4 @@ App.use('/api', apiRoutes);
 
 App.listen(serverConfig.Port , async ()=> {
     console.log(`Successfully started server on Port ${serverConfig.Port}`);
-    const {City , Airport} = require('./models')
-    // const city = await City.findByPk(14);
-    // await city.createAirport({name: 'Np Airport' , code : 'NP' , address: "nayapu Nagar"})
-    await City.destroy({
-        where: {
-            id: 14
-        }
-    });
 })
