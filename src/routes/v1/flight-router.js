@@ -18,5 +18,8 @@ router.delete("/:id", flightController.destroyFlight);
 
 router.patch("/:id", flightController.updateFlight);
 
+// Filter api
+// router.get('/' , flightController.getAllFlightsOnFilter)
+
 
 module.exports = router;

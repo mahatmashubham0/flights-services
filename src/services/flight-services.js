@@ -1,6 +1,7 @@
 const { FlightRespository } = require("../repositories");
 const { StatusCodes } = require("http-status-codes");
 const AppError = require("../utils/app-error");
+const {Op} = require('sequelize')
 
 const flightrespository = new FlightRespository();
 
@@ -23,13 +24,60 @@ async function createFlight(data) {
   }
 }
 
-async function getAllFlights() {
+async function getAllFlights(query) {
+  let customFilter = {};
+  let sortFilter = [];
+  const endingTripTime = " 23:59:00"
+
+  // trips = HYB-MUB
+  if(query.trips) {
+    [departureAirportId , arrivalAirportId] = query.trips.split("-");
+    customFilter.departureAirportId = departureAirportId;
+    customFilter.arrivalAirportId = arrivalAirportId;
+    // and Check both airport are not same
+  }
+
+  // price = 2500-4500
+  if(query.price) {
+    [minPrice , maxPrice] = query.price.split("-");
+    console.log(minPrice , maxPrice)
+    customFilter.price = {
+      [Op.between]: [minPrice , ((maxPrice === undefined) ? 20000 : maxPrice)]
+    }
+  }
+
+  // travellers is equal and grater than the available seata in flights database there totalseat means available seats
+  // travellers = 2
+  if(query.travellers) {
+    customFilter.totalSeats = {  // Op.gte aesa symbol h jise us se equal and jhadha value ko filter krta hain
+        [Op.gte]: query.travellers  // it means totalSeats me query,travellers se equal and jhadha value ho
+    }
+}
+
+  // tripDate = 2024-04-15
+  if(query.tripDate) {
+    customFilter.departureTime = {
+        [Op.between]: [query.tripDate, query.tripDate + endingTripTime]
+    }
+  }
+
+  // sort = 
+  if(query.sort) {
+    const params = query.sort.split(',');
+    const sortFilters = params.map((param) => param.split('_'));
+    sortFilter = sortFilters
+   }
+   console.log(customFilter, sortFilter);
+
   try {
-    const flight = await flightrespository.getAll();
-    return flight;
+    const flights = flightrespository.getAllFlights(customFilter , sortFilter);
+    return flights;
   } catch (error) {
+    if (error.StatusCode === StatusCodes.NOT_FOUND) {
+      throw new AppError("The flight is not present for according this filter", error.StatusCode);
+    }
     throw new AppError(
-      "cannot fetch data of all flight",
+      "Con not find data according the currespoding filter ",
       StatusCodes.INTERNAL_SERVER_ERROR
     );
   }
@@ -80,11 +128,29 @@ async function updateFlight(id , data) {
   }
 }
 
+// async function getAllFlightsOnfilter(query) {
+//   const customFilter = {};
+//   // trips = HYB-MUB
+//   if(query.trips) {
+//     [departureAirportId , arrivalAirportId] = query.trips.split("-");
+//     customFilter.departureAirportId = departureAirportId;
+//     customFilter.arrivalAirportId = arrivalAirportId;
+//     // and Check both airport are not same
+//   }
+//   try {
+//     const flights = flightrespository.getAllFlights(customFilter);
+//     return flights;
+//   } catch (error) {
+//     throw new AppError("Con not find data according the currespoding filter ", StatusCodes.INTERNAL_SERVER_ERROR);
+//   }
+// }
+
 
 module.exports = {
   createFlight,
   getAllFlights,
   getFlight,
   destroyFlight,
-  updateFlight
+  updateFlight,
+  // getAllFlightsOnfilter
 };

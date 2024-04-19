@@ -41,7 +41,7 @@ async function createFlight(req, res) {
  */
 async function getAllFlights(req, res) {
   try {
-    const flights = await FlightService.getAllFlights();
+    const flights = await FlightService.getAllFlights(req.query);
     SuccessRespone.data = flights;
     return res.status(StatusCodes.OK).json({ SuccessRespone });
   } catch (error) {
@@ -92,10 +92,22 @@ async function updateFlight(req, res) {
   }
 }
 
+// async function getAllFlightsOnFilter(req, res) {
+//   try {
+//     const flights = await FlightService.getAllFlightsOnfilter(req.query);
+//       SuccessRespone.data = flights;
+//       return res.status(StatusCodes.OK).json({ SuccessRespone });
+//   } catch (error) {
+//     ErrorResponse.error = error;
+//     return res.status(error.StatusCode).json({ ErrorResponse });
+//   }
+// }
+
 module.exports = {
   createFlight,
   getAllFlights,
   getFlight,
   destroyFlight,
-  updateFlight
+  updateFlight,
+  // getAllFlightsOnFilter
 };
