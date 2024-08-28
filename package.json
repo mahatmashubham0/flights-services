@@ -1,5 +1,5 @@
 {
-  "name": "nodejs",
+  "name": "products",
   "version": "1.0.0",
   "description": "what is module in nodejs.\r --> piece if js code that can be imported\r we can create js module by using two way\r     a. Common js module\r     b. ES6",
   "main": "index.js",
@@ -20,5 +20,6 @@
     "sequelize": "^6.37.1",
     "sequelize-cli": "^6.6.2",
     "winston": "^3.12.0"
-  }
+  },
+  "devDependencies": {}
 }
